@@ -4,16 +4,16 @@ import { urlForImage } from "../../../sanity/lib/image";
 
 export default async function page() {
   const data = await FetchData();
-  console.log("data", data[0].image.asset._ref);
+  // console.log("data", data[0].image.asset._ref);
   return (
-    <div className="flex gap-5">
-      {data.map((product: any) => (
-        <div className="w-[200px]">
-          <img src={urlForImage(product.image).url()} alt="" />
-          <h1>{product.title}</h1>
-          <h1>{product.description}</h1>
-          <h1>{product.category}</h1>
-          <h1>{product.price}</h1>
+    <div className="flex gap-5 max-w-6xl m-auto text-black">
+      {data.map((product: any, index: number) => (
+        <div className="w-1/4 border border-black p-2" key={index}>
+          <img src={urlForImage(product.image).url()} alt="" className="w-full h-60 object-cover object-top" />
+          <h1 className="text-3xl font-bold mt-2">{product.title}</h1>
+          <h1 className="">{product.description}</h1>
+          <h1 className="text-lg font-semibold">Category: {product.category}</h1>
+          <h1 className="text-xl font-semibold">Rs {product.price}</h1>
         </div>
       ))}
     </div>
