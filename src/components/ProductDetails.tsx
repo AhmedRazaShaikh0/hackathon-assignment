@@ -1,12 +1,15 @@
 "use client";
 import React, { useState } from "react";
 import { urlForImage } from "../../sanity/lib/image";
+import { useAuth } from "@clerk/nextjs";
 
 export default function ProductDetails({
   filteredData,
 }: {
   filteredData: any;
 }) {
+  const { userId } = useAuth();
+  console.log(userId);
   const [quantity, setQuantity] = useState(1);
 
   // console.log("filteredData", filteredData);
@@ -23,7 +26,7 @@ export default function ProductDetails({
       const res = await fetch("/api/cart", {
         method: "POST",
         body: JSON.stringify({
-          user_id: "qwertyuiop",
+          user_id: userId,
           product_id: filteredData._id,
           product_title: filteredData.title,
           product_price: filteredData.price * quantity,
