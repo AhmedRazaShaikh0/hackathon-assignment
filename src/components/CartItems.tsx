@@ -4,17 +4,26 @@ import React, { useEffect, useState } from "react";
 
 export default function CartItems() {
   const [products, setProducts] = useState<any>(null);
+  const [state, setState] = useState(false);
   const { isSignedIn, userId } = useAuth();
   //   console.log("user_id", uid);
   useEffect(() => {
-    fetch(
-      `http://localhost:3000/api/cart?user_id=${userId}`
-    )
+    fetch(`http://localhost:3000/api/cart?user_id=${userId}`)
       .then((res) => res.json())
       .then((data) => setProducts(data));
-  }, [isSignedIn]);
+  }, [isSignedIn, state]);
 
-  //   const data = await res.json();
+  async function deleteProduct(product_title: any) {
+    const res = await fetch("/api/cart", {
+      method: "DELETE",
+      body: JSON.stringify({
+        user_id: userId,
+        product_title: product_title,
+      }),
+    });
+    setState(!state);
+    // console.log('working')
+  }
 
   return (
     <div>
@@ -44,7 +53,10 @@ export default function CartItems() {
                     +
                   </button>
                 </div>
-                <button className="bg-black text-white py-1 px-5 rounded-md mt-10 font-semibold">
+                <button
+                  onClick={() => deleteProduct(item.product_title)}
+                  className="bg-black text-white py-1 px-5 rounded-md mt-10 font-semibold"
+                >
                   DELETE
                 </button>
               </div>

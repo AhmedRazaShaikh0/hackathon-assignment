@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs";
 
 export default function Header() {
   const { isSignedIn } = useAuth();
-  console.log(isSignedIn);
+  // console.log(isSignedIn);
   return (
     <div className="flex justify-between">
       {!isSignedIn && (

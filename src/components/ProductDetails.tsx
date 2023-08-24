@@ -9,7 +9,7 @@ export default function ProductDetails({
   filteredData: any;
 }) {
   const { userId } = useAuth();
-  console.log(userId);
+  // console.log(userId);
   const [quantity, setQuantity] = useState(1);
 
   // console.log("filteredData", filteredData);
