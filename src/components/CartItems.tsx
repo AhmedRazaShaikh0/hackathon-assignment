@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 
 export default function CartItems() {
   const [products, setProducts] = useState<any>(null);
+  console.log("🚀 ~ file: CartItems.tsx:7 ~ CartItems ~ products:", products)
   const [state, setState] = useState(false);
   const { isSignedIn, userId } = useAuth();
   //   console.log("user_id", uid);
@@ -25,6 +26,47 @@ export default function CartItems() {
     // console.log('working')
   }
 
+  async function handleIncrement(
+    user_id: any,
+    product_quantity: any,
+    product_title: any
+  ) {
+    try {
+      await fetch("/api/cart", {
+        method: "PUT",
+        body: JSON.stringify({
+          user_id: user_id,
+          product_quantity: product_quantity,
+          product_title: product_title,
+        }),
+      });
+      setState(!state);
+    } catch (error) {
+      console.log("error", error);
+    }
+    console.log("testing");
+  }
+  async function handleDecrement(
+    user_id: any,
+    product_quantity: any,
+    product_title: any
+  ) {
+    try {
+      await fetch("/api/cart", {
+        method: "PUT",
+        body: JSON.stringify({
+          user_id: user_id,
+          product_quantity: product_quantity,
+          product_title: product_title,
+        }),
+      });
+      setState(!state);
+    } catch (error) {
+      console.log("error", error);
+    }
+    console.log("testing");
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold">Cart</h1>
@@ -43,13 +85,31 @@ export default function CartItems() {
                 <h1 className="text-4xl font-bold">{item.product_title}</h1>
                 <h1 className="text-2xl font-medium">{item.product_price}</h1>
                 <div className="flex border w-fit mt-5">
-                  <button className={`px-3 py-1 text-center hover:bg-gray-200`}>
+                  <button
+                    onClick={() =>
+                      handleDecrement(
+                        item.user_id,
+                        item.product_quantity - 1,
+                        item.product_title
+                      )
+                    }
+                    className={`px-3 py-1 text-center hover:bg-gray-200`}
+                  >
                     -
                   </button>
                   <div className="px-3 py-1 text-center">
                     {item.product_quantity}
                   </div>
-                  <button className={`px-3 py-1 text-center hover:bg-gray-200`}>
+                  <button
+                    onClick={() =>
+                      handleIncrement(
+                        item.user_id,
+                        item.product_quantity + 1,
+                        item.product_title
+                      )
+                    }
+                    className={`px-3 py-1 text-center hover:bg-gray-200`}
+                  >
                     +
                   </button>
                 </div>

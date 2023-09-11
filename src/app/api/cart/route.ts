@@ -59,10 +59,31 @@ export const DELETE = async (request: NextRequest) => {
         )
       )
       .returning();
-      console.log('Product Successfully Deleted')
+    console.log("Product Successfully Deleted");
     return NextResponse.json({ message: "Product Successfully Deleted" });
   } catch (error) {
     console.log("Error removing item from cart", error);
     return NextResponse.json({ message: "Error Deleting Product" });
+  }
+};
+
+export const PUT = async (request: NextRequest) => {
+  const req = await request.json();
+  try {
+    const res = await db
+      .update(cartColumns)
+      .set({ product_quantity: req.product_quantity })
+      .where(
+        and(
+          eq(cartColumns.user_id, req.user_id),
+          eq(cartColumns.product_title, req.product_title)
+        )
+      )
+      .returning();
+    console.log("Quantity Updated");
+    return NextResponse.json({ message: "Quantity Updated" });
+  } catch (error) {
+    console.log("Error while updating quantity", error);
+    return NextResponse.json({ message: "Error while updating quantity" });
   }
 };
